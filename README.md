@@ -34,8 +34,8 @@
 
 
 ## Adding new user:
-- The user can set one or more grants. If all grants are selected, the grants will automatically grant ALL Privileges to the new user made.
-- 
+- The user can set one or more grants. If all grants are selected, the grants will automatically grant ALL PRIVILEGES to the new user made.
+
 [![screencapture-localhost-3000-2021-11-30-23-01-28.png](https://i.postimg.cc/NjC9stnX/screencapture-localhost-3000-2021-11-30-23-01-28.png)](https://postimg.cc/DSsy69nf)
  
  ### SQL commands 1:
