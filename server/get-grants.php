@@ -11,17 +11,17 @@ $conn = $database->dbConnection();
 
 $data = json_decode(file_get_contents("php://input"));
 
-if (!isset($data->username)) :
+if (!isset($data->username) && !isset($data->password) && !isset($data->host)) :
   echo json_encode([
     'success' => 0,
-    'message' => 'Please add a content.',
+    'message' => 'Incomplete fields',
   ]);
   exit;
 
 elseif (empty(trim($data->username))) :
   echo json_encode([
     'success' => 0,
-    'message' => 'Oops! empty field detected. Please fill all the fields.',
+    'message' => 'Incomplete fields',
   ]);
   exit;
 
@@ -29,37 +29,22 @@ endif;
 
 try {
   $username = htmlspecialchars(trim($data->username));
-  $password = htmlspecialchars(trim($data->password));
   $host = htmlspecialchars(trim($data->host));
-  $grants = htmlspecialchars(trim($data->grants));
+  $password = htmlspecialchars(trim($data->password));
 
-  $query = "CREATE USER :username@:host IDENTIFIED BY :password";
+  $mysqli = new mysqli($host, $username, $password);
 
-  $stmt = $conn->prepare($query);
-
-  $stmt->bindValue(':username', $username, PDO::PARAM_STR);
-  $stmt->bindValue(':password', $password, PDO::PARAM_STR);
-  $stmt->bindValue(':host', $host, PDO::PARAM_STR);
-
-  if ($stmt->execute()) {
-
-    $query2 = "GRANT $grants ON * . * TO $username@$host";
-
-    $stmt2 = $conn->prepare($query2);
-
-    $stmt2->execute();
-
-    echo json_encode([
-      'success' => 1,
-      'message' => 'added user to system.'
-    ]);
-    exit;
+  if ($mysqli->connect_errno) {
+    echo "Failed to connect to MySQL: " . $mysqli->connect_error;
+    exit();
   }
 
-  echo json_encode([
-    'success' => 0,
-    'message' => 'Data not Inserted.'
-  ]);
+  $result = $mysqli->query("SHOW GRANTS for $username@$host");
+
+  while ($row = mysqli_fetch_array($result)) {
+    echo json_encode($row[0]);
+  }
+
   exit;
 } catch (PDOException $e) {
   http_response_code(500);
