@@ -62,7 +62,7 @@ try {
   ]);
   exit;
 } catch (PDOException $e) {
-  http_response_code(500);
+  // http_response_code(500);
   echo json_encode([
     'success' => 0,
     'message' => $e->getMessage()
