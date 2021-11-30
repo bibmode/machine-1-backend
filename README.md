@@ -39,40 +39,7 @@
  
  ### SQL commands 1:
  -This is a snippet from the add-user.php file [here](https://github.com/bibmode/machine-1-backend/blob/main/server/add-user.php)
- 
-```
-  $query = "CREATE USER $username@$host IDENTIFIED BY $password";
 
-  $stmt = $conn->prepare($query);
-
-  if ($stmt->execute()) {
-
-    $query2 = "GRANT $grants ON * . * TO $username@$host";
-
-    $stmt2 = $conn->prepare($query2);
-
-    $stmt2->execute();
-
-    echo json_encode([
-      'success' => 1,
-      'message' => 'added user to system.'
-    ]);
-    exit;
-  }
-```
-
-
-## Login user and show grants:
-
- ### login page
-[![screencapture-localhost-3000-2021-11-30-23-18-16.png](https://i.postimg.cc/Fzgtp9Sn/screencapture-localhost-3000-2021-11-30-23-18-16.png)](https://postimg.cc/Cn16Lpmj)
-
- ### user page
-[![screencapture-localhost-3000-genebeeeb-2021-11-30-23-20-12.png](https://i.postimg.cc/yYV2BCcs/screencapture-localhost-3000-genebeeeb-2021-11-30-23-20-12.png)](https://postimg.cc/NLzd7Vdz)
- 
- ### SQL commands 2:
- -This is a snippet from the get-grants.php file [here](https://github.com/bibmode/machine-1-backend/blob/main/server/get-grants.php)
- 
 ```
   $username = htmlspecialchars(trim($data->username));
   $password = htmlspecialchars(trim($data->password));
@@ -100,6 +67,37 @@
       'message' => 'added user to system.'
     ]);
     exit;
+  }
+ ```
+
+
+## Login user and show grants:
+
+ ### login page
+[![screencapture-localhost-3000-2021-11-30-23-18-16.png](https://i.postimg.cc/Fzgtp9Sn/screencapture-localhost-3000-2021-11-30-23-18-16.png)](https://postimg.cc/Cn16Lpmj)
+
+ ### user page
+[![screencapture-localhost-3000-genebeeeb-2021-11-30-23-20-12.png](https://i.postimg.cc/yYV2BCcs/screencapture-localhost-3000-genebeeeb-2021-11-30-23-20-12.png)](https://postimg.cc/NLzd7Vdz)
+ 
+ ### SQL commands 2:
+ -This is a snippet from the get-grants.php file [here](https://github.com/bibmode/machine-1-backend/blob/main/server/get-grants.php)
+ 
+```
+  $username = htmlspecialchars(trim($data->username));
+  $host = htmlspecialchars(trim($data->host));
+  $password = htmlspecialchars(trim($data->password));
+
+  $mysqli = new mysqli($host, $username, $password);
+
+  if ($mysqli->connect_errno) {
+    echo "Failed to connect to MySQL: " . $mysqli->connect_error;
+    exit();
+  }
+
+  $result = $mysqli->query("SHOW GRANTS for $username@$host");
+
+  while ($row = mysqli_fetch_array($result)) {
+    echo json_encode($row[0]);
   }
 ```
 
