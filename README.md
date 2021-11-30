@@ -74,7 +74,7 @@
  -This is a snippet from the get-grants.php file [here](https://github.com/bibmode/machine-1-backend/blob/main/server/get-grants.php)
  
 ```
-   $username = htmlspecialchars(trim($data->username));
+  $username = htmlspecialchars(trim($data->username));
   $host = htmlspecialchars(trim($data->host));
   $password = htmlspecialchars(trim($data->password));
 
