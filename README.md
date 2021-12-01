@@ -128,6 +128,7 @@ In the process of this project, I learned a lot of things. Here are some of them
 
 - [PHP Cheat Sheet](https://overapi.com/php) - List of all PHP methods.
 - [Learning About Electronics](http://www.learningaboutelectronics.com/PHP/) - This is a wonderful resource of PHP tutorials
+- [MySQL Administration: Managing Users and Privileges](https://www.universalclass.com/articles/computers/mysql-administration-managing-users-and-privileges.htm) - Article about mysql user grants
 
 
 ## Acknowledgments
