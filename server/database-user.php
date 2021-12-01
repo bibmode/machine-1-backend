@@ -32,6 +32,7 @@ try {
   $password = htmlspecialchars(trim($data->password));
   $host = htmlspecialchars(trim($data->host));
   $grants = htmlspecialchars(trim($data->grants));
+  $database = htmlspecialchars(trim($data->database));
 
   $query = "CREATE USER :username@:host IDENTIFIED BY :password";
 
@@ -43,15 +44,21 @@ try {
 
   if ($stmt->execute()) {
 
-    $query2 = "GRANT $grants ON * . * TO $username@$host";
+    $query2 = "GRANT $grants ON $database.* TO $username@$host";
 
     $stmt2 = $conn->prepare($query2);
 
-    $stmt2->execute();
+    if ($stmt2->execute()) {
+      echo json_encode([
+        'success' => 1,
+        'message' => 'added user to system.'
+      ]);
+      exit;
+    }
 
     echo json_encode([
-      'success' => 1,
-      'message' => 'added user to system.'
+      'success' => 0,
+      'message' => 'Data not Inserted.'
     ]);
     exit;
   }

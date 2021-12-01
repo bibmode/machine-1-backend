@@ -4,9 +4,9 @@ class Database
 
   // CHANGE THE DB INFO ACCORDING TO YOUR DATABASE
   private $db_host = 'localhost';
-  private $db_name = 'mysql';
-  private $db_username = 'root';
-  private $db_password = '';
+  private $db_name = 'it107';
+  private $db_username = 'genevieve';
+  private $db_password = 'password';
 
   public function dbConnection()
   {
